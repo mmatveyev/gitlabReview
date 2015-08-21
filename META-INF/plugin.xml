@@ -1,0 +1,46 @@
+<idea-plugin version="2">
+  <id>gitlab4idea</id>
+  <name>Gitlab review plugin for IDEA</name>
+  <version>1.0</version>
+  <vendor email="max@zeoalliance.com" url="http://http://cloudmccloud.com/">Cloud McCloud</vendor>
+
+  <description><![CDATA[
+     Plugin provides IDEA integration with GitLab
+    ]]></description>
+
+  <change-notes><![CDATA[
+      Add change notes here.<br>
+      <em>most HTML tags may be used</em>
+    ]]>
+  </change-notes>
+
+  <!-- please see https://confluence.jetbrains.com/display/IDEADEV/Build+Number+Ranges for description -->
+  <idea-version since-build="131"/>
+
+  <!-- please see https://confluence.jetbrains.com/display/IDEADEV/Plugin+Compatibility+with+IntelliJ+Platform+Products
+       on how to target different products -->
+  <!-- uncomment to enable plugin in all products
+  <depends>com.intellij.modules.lang</depends>
+  -->
+
+  <extensions defaultExtensionNs="com.intellij">
+      <projectConfigurable instance="com.cloudmccloud.GitlabReviewConfigurable"
+                           id="com.cloudmccloud.GitlabReviewConfigurable" displayName="Gitlab Connector"/>
+      <projectService serviceInterface="com.cloudmccloud.GitlabReviewSettings"
+                      serviceImplementation="com.cloudmccloud.GitlabReviewSettings"/>
+    <!-- Add your extensions here -->
+  </extensions>
+
+  <application-components>
+    <!-- Add your application components here -->
+  </application-components>
+
+  <project-components>
+    <!-- Add your project components here -->
+  </project-components>
+
+  <actions>
+    <!-- Add your actions here -->
+  </actions>
+
+</idea-plugin>
