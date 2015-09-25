@@ -1,4 +1,4 @@
-package com.cloudmccloud;
+package com.cloudmccloud.gitlabReview;
 
 import com.intellij.openapi.options.ConfigurationException;
 import com.intellij.openapi.options.SearchableConfigurable;
@@ -10,22 +10,19 @@ import org.jetbrains.annotations.Nullable;
 
 import javax.swing.*;
 
-/**
- * Created by maxm on 21.08.15.
- */
 public class GitlabReviewConfigurable implements SearchableConfigurable {
     private final Project myProject;
-    private JPanel myMainPanel;
-    private JTextField myServerField;
-    private JTextField myUsernameField;
-    private JPasswordField myPasswordField;
-    private JCheckBox checkRememberPassword;
-    private JButton testButton;
-    private GitlabReviewSettings myGitlabSettings;
+    private JPanel mainPannel;
+    private JTextField serverUrlField;
+    private JTextField usernameField;
+    private JPasswordField passwordField;
+    private JCheckBox RememberPassword;
+    private JButton testConnectionButton;
+    private GitlabReviewSettings myGitlabReviewSettings;
 
-    public GitlabReviewConfigurable(Project myProject) {
-        this.myProject = myProject;
-        myGitlabSettings = GitlabReviewSettings.getInstance(myProject);
+    public GitlabReviewConfigurable(Project project) {
+        myProject = project;
+        myGitlabReviewSettings = GitlabReviewSettings.getInstance(myProject);
     }
 
     @NotNull
@@ -55,18 +52,18 @@ public class GitlabReviewConfigurable implements SearchableConfigurable {
     @Nullable
     @Override
     public JComponent createComponent() {
-        return myMainPanel;
+        return mainPannel;
     }
 
     @Override
     public boolean isModified() {
-        if (!StringUtil.equals(myGitlabSettings.PASSWORD, new String(myPasswordField.getPassword()))) {
+        if (!StringUtil.equals(myGitlabReviewSettings.PASSWORD, new String(passwordField.getPassword()))) {
             return true;
         }
-        if (!StringUtil.equals(myGitlabSettings.SERVER_URL, myServerField.getText())) {
+        if (!StringUtil.equals(myGitlabReviewSettings.SERVER_URL, serverUrlField.getText())) {
             return true;
         }
-        if(!StringUtil.equals(myGitlabSettings.USERNAME, myUsernameField.getText())) {
+        if (!StringUtil.equals(myGitlabReviewSettings.USERNAME, usernameField.getText())) {
             return true;
         }
         return false;
@@ -74,16 +71,16 @@ public class GitlabReviewConfigurable implements SearchableConfigurable {
 
     @Override
     public void apply() throws ConfigurationException {
-        myGitlabSettings.USERNAME = myUsernameField.getText();
-        myGitlabSettings.PASSWORD = new String(myPasswordField.getPassword());
-        myGitlabSettings.SERVER_URL = myServerField.getText();
+        myGitlabReviewSettings.USERNAME = usernameField.getText();
+        myGitlabReviewSettings.SERVER_URL = serverUrlField.getText();
+        myGitlabReviewSettings.PASSWORD = new String(passwordField.getPassword());
     }
 
     @Override
     public void reset() {
-        myUsernameField.setText(myGitlabSettings.USERNAME);
-        myPasswordField.setText(myGitlabSettings.PASSWORD);
-        myServerField.setText(myGitlabSettings.SERVER_URL);
+        usernameField.setText(myGitlabReviewSettings.USERNAME);
+        serverUrlField.setText(myGitlabReviewSettings.SERVER_URL);
+        passwordField.setText(myGitlabReviewSettings.PASSWORD);
     }
 
     @Override

@@ -1,23 +1,19 @@
-package com.cloudmccloud;
+package com.cloudmccloud.gitlabReview;
 
 import com.intellij.openapi.components.*;
 import com.intellij.openapi.project.Project;
 import com.intellij.util.xmlb.XmlSerializerUtil;
 
-/**
- * Created by maxm on 21.08.15.
- */
-@State(name = "GitlabReviewSettings",
+@State(name = "CrucibleSettings",
         storages = {
                 @Storage( file = StoragePathMacros.PROJECT_FILE),
-                @Storage( file = StoragePathMacros.PROJECT_CONFIG_DIR + "/gitlabConnector.xml", scheme = StorageScheme.DIRECTORY_BASED)
+                @Storage( file = StoragePathMacros.PROJECT_CONFIG_DIR + "/crucibleConnector.xml", scheme = StorageScheme.DIRECTORY_BASED)
         }
 )
 public class GitlabReviewSettings implements PersistentStateComponent<GitlabReviewSettings> {
     public String SERVER_URL = "";
     public String USERNAME = "";
     public String PASSWORD = "";
-
     @Override
     public GitlabReviewSettings getState() {
         return this;
@@ -31,5 +27,4 @@ public class GitlabReviewSettings implements PersistentStateComponent<GitlabRevi
     public static GitlabReviewSettings getInstance(Project project) {
         return ServiceManager.getService(project, GitlabReviewSettings.class);
     }
-
 }
