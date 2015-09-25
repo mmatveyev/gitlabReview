@@ -24,10 +24,10 @@
   -->
 
   <extensions defaultExtensionNs="com.intellij">
-      <projectConfigurable instance="com.cloudmccloud.gitlabReview.GitlabReviewConfigurable"
-                           id="com.cloudmccloud.gitlabReview.GitlabReviewConfigurable" displayName="Gitlab Review"/>
-      <projectService serviceInterface="com.cloudmccloud.gitlabReview.GitlabReviewSettings"
-                      serviceImplementation="com.cloudmccloud.gitlabReview.GitlabReviewSettings"/>
+      <projectConfigurable instance="com.cloudmccloud.gitlabReview.configuration.GitlabReviewConfigurable"
+                           id="com.cloudmccloud.gitlabReview.configuration.GitlabReviewConfigurable" displayName="Gitlab Review"/>
+      <projectService serviceInterface="com.cloudmccloud.gitlabReview.configuration.GitlabReviewSettings"
+                      serviceImplementation="com.cloudmccloud.gitlabReview.configuration.GitlabReviewSettings"/>
     <!-- Add your extensions here -->
   </extensions>
 

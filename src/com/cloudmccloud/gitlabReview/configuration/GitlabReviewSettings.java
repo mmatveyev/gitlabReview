@@ -1,4 +1,4 @@
-package com.cloudmccloud.gitlabReview;
+package com.cloudmccloud.gitlabReview.configuration;
 
 import com.intellij.openapi.components.*;
 import com.intellij.openapi.project.Project;
@@ -12,6 +12,7 @@ import com.intellij.util.xmlb.XmlSerializerUtil;
 )
 public class GitlabReviewSettings implements PersistentStateComponent<GitlabReviewSettings> {
     public String SERVER_URL = "";
+    public String API_TOKEN = "";
     public String USERNAME = "";
     public String PASSWORD = "";
     @Override

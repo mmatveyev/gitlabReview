@@ -1,7 +1,10 @@
-package com.cloudmccloud.gitlabReview;
+package com.cloudmccloud.gitlabReview.configuration;
 
+import com.cloudmccloud.gitlabReview.connection.TestConnectionTask;
 import com.intellij.openapi.options.ConfigurationException;
 import com.intellij.openapi.options.SearchableConfigurable;
+import com.intellij.openapi.progress.ProgressManager;
+import com.intellij.openapi.progress.Task;
 import com.intellij.openapi.project.Project;
 import com.intellij.openapi.util.text.StringUtil;
 import org.jetbrains.annotations.Nls;
@@ -9,20 +12,39 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import javax.swing.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 public class GitlabReviewConfigurable implements SearchableConfigurable {
     private final Project myProject;
     private JPanel mainPannel;
     private JTextField serverUrlField;
-    private JTextField usernameField;
-    private JPasswordField passwordField;
-    private JCheckBox RememberPassword;
+    private JTextField apiTokenField;
     private JButton testConnectionButton;
+    private JTextField userNameField;
+    private JPasswordField passwordField;
     private GitlabReviewSettings myGitlabReviewSettings;
 
     public GitlabReviewConfigurable(Project project) {
         myProject = project;
         myGitlabReviewSettings = GitlabReviewSettings.getInstance(myProject);
+
+        testConnectionButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                saveSettings();
+                Task.Modal testConnectionTask = new TestConnectionTask(myProject, "TestingConnection", true);
+                testConnectionTask.setCancelText("Stop");
+                ProgressManager.getInstance().run(testConnectionTask);
+            }
+        });
+    }
+
+    private void saveSettings() {
+        myGitlabReviewSettings.SERVER_URL = serverUrlField.getText();
+        myGitlabReviewSettings.API_TOKEN = apiTokenField.getText();
+        myGitlabReviewSettings.USERNAME = userNameField.getText();
+        myGitlabReviewSettings.PASSWORD = new String(passwordField.getPassword());
     }
 
     @NotNull
@@ -57,13 +79,16 @@ public class GitlabReviewConfigurable implements SearchableConfigurable {
 
     @Override
     public boolean isModified() {
-        if (!StringUtil.equals(myGitlabReviewSettings.PASSWORD, new String(passwordField.getPassword()))) {
-            return true;
-        }
         if (!StringUtil.equals(myGitlabReviewSettings.SERVER_URL, serverUrlField.getText())) {
             return true;
         }
-        if (!StringUtil.equals(myGitlabReviewSettings.USERNAME, usernameField.getText())) {
+        if (!StringUtil.equals(myGitlabReviewSettings.API_TOKEN, apiTokenField.getText())) {
+            return true;
+        }
+        if (!StringUtil.equals(myGitlabReviewSettings.USERNAME, userNameField.getText())) {
+            return true;
+        }
+        if (!StringUtil.equals(myGitlabReviewSettings.PASSWORD, new String(passwordField.getPassword()))) {
             return true;
         }
         return false;
@@ -71,15 +96,14 @@ public class GitlabReviewConfigurable implements SearchableConfigurable {
 
     @Override
     public void apply() throws ConfigurationException {
-        myGitlabReviewSettings.USERNAME = usernameField.getText();
-        myGitlabReviewSettings.SERVER_URL = serverUrlField.getText();
-        myGitlabReviewSettings.PASSWORD = new String(passwordField.getPassword());
+        saveSettings();
     }
 
     @Override
     public void reset() {
-        usernameField.setText(myGitlabReviewSettings.USERNAME);
         serverUrlField.setText(myGitlabReviewSettings.SERVER_URL);
+        apiTokenField.setText(myGitlabReviewSettings.API_TOKEN);
+        userNameField.setText(myGitlabReviewSettings.USERNAME);
         passwordField.setText(myGitlabReviewSettings.PASSWORD);
     }
 
